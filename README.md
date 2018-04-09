@@ -3,7 +3,7 @@ A Webpack plugin or standalone class to convert sass to css and inject it into a
 
 First things first: A big thanks to [superjose](https://github.com/superjose) and his https://github.com/superjose/polymer-sass project that achieves the same thing with gulp and has shown me the way.
 
-Motivation: I needed a plugin for webpack or even a standalone tool that takes a SASS file or any needed stylesheet, compiles it to CSS and injects it into existing style_modules which i use with polymer and webcomponents.
+Motivation: I needed a plugin for webpack or even a standalone tool that takes a SASS file or any needed stylesheet, compiles it to CSS and injects it into existing style_modules which i use with polymer and webcomponents. Additionally someone probably doesn't want to write all the styles in sass, therefore the plugin does not overwrite existing styles in the module, but only injects the sass styles 1:1 as css between the inject comments.
 
 Right now the use is satisfying for the project so i can write SASS and still use style modules to style my webcomponents. If there is need for more languages or different outputs, i can look into improving this hacky project which i coded in about an hour.
 Feel free to take it, use it, destroy it, fix it, just a star would be nice. 
