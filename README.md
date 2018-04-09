@@ -32,7 +32,7 @@ That's it. You add the Plugin inside the plugins array, pass a folder and an ext
 ### Standalone
 ```javascript
 /*inside sassloader.js*/
-const StyleModuleInjectPlugin = require('./StyleModuleSassLoader');
+const StyleModuleInjectPlugin = require('./StyleModuleInjectPlugin');
 let plugin = new StyleModuleInjectPlugin({ folder: './style-modules', extension: /\.scss$/ });
 plugin.convertAndInject();
 ``` 
