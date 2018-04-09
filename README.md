@@ -32,8 +32,8 @@ That's it. You add the Plugin inside the plugins array, pass a folder and an ext
 ```javascript
 /*inside sassloader.js*/
 const StyleModuleInjectPlugin = require('./StyleModuleSassLoader');
-let loader = new StyleModuleInjectPlugin({ folder: './style-modules', extension: /\.scss$/ });
-loader.convertAndInject();
+let plugin = new StyleModuleInjectPlugin({ folder: './style-modules', extension: /\.scss$/ });
+plugin.convertAndInject();
 ``` 
 I used this with a npm command "npm run convert-sass" like:
 ```json
