@@ -12,14 +12,14 @@
 		plugin.convertAndInject();
 
 		available options: {
-													folder: './style-modules',													directory that the plugin should check
-													extension: /\.scss$/,																file extension to look for
-													includePaths: ["src/webcomponents/style-modules"], 	https://www.npmjs.com/package/node-sass#includepaths
-													outputStyle: 'nested', 															https://www.npmjs.com/package/node-sass#outputstyle
-													webpackHook: 'run' 																	https://webpack.js.org/api/compiler-hooks/
-													startComment: "/*inject_start{scss}<star>/",				defines the start point of injection
-													endComment: "/*inject_end{scss}<star>/"							defines the end point of injection
-											 }
+					folder: './style-modules',				directory that the plugin should check
+					extension: /\.scss$/,					file extension to look for
+					includePaths: ["src/webcomponents/style-modules"], 	https://www.npmjs.com/package/node-sass#includepaths
+					outputStyle: 'nested', 					https://www.npmjs.com/package/node-sass#outputstyle
+					webpackHook: 'run' 					https://webpack.js.org/api/compiler-hooks/
+					startComment: "/*inject_start{scss}<star>/",		defines the start point of injection
+					endComment: "/*inject_end{scss}<star>/"			defines the end point of injection
+				   }
  */
 const fs = require('fs');
 const path = require('path');
