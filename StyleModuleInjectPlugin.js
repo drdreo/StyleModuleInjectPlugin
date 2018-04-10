@@ -1,5 +1,23 @@
 "use strict";
 
+/**
+ * Author: Andreas K. Hahn - https://github.com/drdreo
+ * A big thanks to Jose A. who created a similar task for gulp.
+ * He explained it in detail at stackoverflow: https://stackoverflow.com/a/37666406/6699493
+ *
+ * Description: A Webpack plugin or standalone class to convert sass to css and inject it into a polymer style module.
+ * Usage:
+ *  let plugin = new StyleModuleInjectPlugin({ options });
+		plugin.convertAndInject();
+
+		available options: {
+													folder: './style-modules',													directory that the plugin should check
+													extension: /\.scss$/,																file extension to look for
+													includePaths: ["src/webcomponents/style-modules"], 	https://www.npmjs.com/package/node-sass#includepaths
+													outputStyle: 'nested', 															https://www.npmjs.com/package/node-sass#outputstyle
+													webpackHook: 'run' 																	https://webpack.js.org/api/compiler-hooks/
+											 }
+ */
 const fs = require('fs');
 const path = require('path');
 const nodeSass = require('node-sass');
@@ -11,6 +29,13 @@ class StyleModuleInjectPlugin {
 		this.options.includePaths = this.options.includePaths || [];
 		this.options.outputStyle = this.options.outputStyle || 'compressed';
 		this.options.webpackHook = this.options.webpackHook || "run";
+
+		if (!this.options.folder) {
+			throw { name: "MissingArgumentError", message: "Folder option is missing" };
+		}
+		if (!this.options.extension) {
+			throw { name: "MissingArgumentError", message: "Extension option is missing" };
+		}
 
 		this.startStyle = "/*inject_start{scss}*/";
 		this.endStyle = "/*inject_end{scss}*/";
