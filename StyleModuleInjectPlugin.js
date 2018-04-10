@@ -8,6 +8,9 @@ class StyleModuleInjectPlugin {
 
 	constructor(options = {}) {
 		this.options = options;
+		this.options.includePaths = this.options.includePaths || [];
+		this.options.outputStyle = this.options.outputStyle || 'compressed';
+		this.options.webpackHook = this.options.webpackHook || "run";
 
 		this.startStyle = "/*inject_start{scss}*/";
 		this.endStyle = "/*inject_end{scss}*/";
@@ -40,8 +43,8 @@ class StyleModuleInjectPlugin {
 
 		let result = nodeSass.renderSync({
 			file: file,
-			includePaths: ["src/webcomponents/style-modules"],
-			outputStyle: 'compressed'
+			includePaths: this.options.includePaths,
+			outputStyle: this.options.outputStyle
 		});
 
 		return result.css;
@@ -49,14 +52,14 @@ class StyleModuleInjectPlugin {
 
 	injectCSSinStyleModule(moduleFile, css, cb) {
 
-		// If there is no Sass
+		// If there is no css
 		if (!css) {
 			return cb(null);
 		}
 
 		let styleModuleContent = fs.readFileSync(moduleFile, "utf8");
 
-		// the style_module is empty or the RegEx doesn't exists in the file, return null.
+		// if the style_module is empty or the RegEx doesn't exists in the file, return null.
 		if (!styleModuleContent || !this.regEx.test(styleModuleContent)) {
 			return cb(null);
 		}
@@ -74,7 +77,7 @@ class StyleModuleInjectPlugin {
 			if (err) {
 				return cb(false);
 			}
-			return cb(true + " " + moduleFile);
+			return cb(true);
 		});
 	}
 
@@ -89,7 +92,7 @@ class StyleModuleInjectPlugin {
 				let compiledCSS = this.compileSass(sassfile);
 
 				this.injectCSSinStyleModule(moduleFile, compiledCSS, (success) => {
-					console.log(success);
+					console.log(success + " " + moduleFile);
 					// handle stuff after injection
 				});
 			}
@@ -97,9 +100,8 @@ class StyleModuleInjectPlugin {
 	}
 
 	apply(compiler) {
-		// webpack lifecycle hook: run
-		compiler.plugin("run", () => {
-
+		// execute the injection at the given webpack lifecycle hook
+		compiler.plugin(this.options.webpackHook, () => {
 			this.convertAndInject();
 		});
 	}
