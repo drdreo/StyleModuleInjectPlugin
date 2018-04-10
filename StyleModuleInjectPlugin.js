@@ -84,7 +84,7 @@ class StyleModuleInjectPlugin {
 	convertAndInject() {
 		this.ReadFilesfromDir(this.options.folder, this.options.extension, (sassfile) => {
 			// get the related style-module for the SASS file
-			const moduleFile = sassfile.replace(/\.scss$/i, '.html');
+			const moduleFile = sassfile.replace(this.options.extension, '.html');
 
 			// only compile and inject if the module exists
 			if (fs.existsSync(moduleFile)) {
