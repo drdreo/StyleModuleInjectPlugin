@@ -2,6 +2,7 @@
 
 /**
  * Author: Andreas K. Hahn - https://github.com/drdreo
+ * Repository: https://github.com/drdreo/StyleModuleInjectPlugin
  * A big thanks to Jose A. who created a similar task for gulp.
  * He explained it in detail at stackoverflow: https://stackoverflow.com/a/37666406/6699493
  *
@@ -16,6 +17,8 @@
 													includePaths: ["src/webcomponents/style-modules"], 	https://www.npmjs.com/package/node-sass#includepaths
 													outputStyle: 'nested', 															https://www.npmjs.com/package/node-sass#outputstyle
 													webpackHook: 'run' 																	https://webpack.js.org/api/compiler-hooks/
+													startComment: "/*inject_start{scss}<star>/",				defines the start point of injection
+													endComment: "/*inject_end{scss}<star>/"							defines the end point of injection
 											 }
  */
 const fs = require('fs');
@@ -37,10 +40,11 @@ class StyleModuleInjectPlugin {
 			throw { name: "MissingArgumentError", message: "Extension option is missing" };
 		}
 
-		this.startStyle = "/*inject_start{scss}*/";
-		this.endStyle = "/*inject_end{scss}*/";
+		this.startStyle = this.options.startComment || "/*inject_start{scss}*/";
+		this.endStyle = this.options.endComment || "/*inject_end{scss}*/";
+
 		//This will match anything between the Start and End Style, so we can reinject and overwrite again and again.
-		this.regEx = /\/\*inject_start{scss}\*\/[\s\S]*\/\*inject_end{scss}\*\//g;
+		this.regExp = new RegExp(this.escapeRegExp(this.startStyle) + "[\\s\\S]*" + this.escapeRegExp(this.endStyle), "g");
 	}
 
 	// thanks to https://stackoverflow.com/a/25462405/6699493
@@ -85,7 +89,7 @@ class StyleModuleInjectPlugin {
 		let styleModuleContent = fs.readFileSync(moduleFile, "utf8");
 
 		// if the style_module is empty or the RegEx doesn't exists in the file, return null.
-		if (!styleModuleContent || !this.regEx.test(styleModuleContent)) {
+		if (!styleModuleContent || !this.regExp.test(styleModuleContent)) {
 			return cb(null);
 		}
 		/**
@@ -95,7 +99,7 @@ class StyleModuleInjectPlugin {
 		const injectCssContent = this.startStyle + css.toString() + this.endStyle;
 
 		// This is going to replace everything that was between the this.startStyle and this.endStyle
-		styleModuleContent = new Buffer(styleModuleContent.replace(this.regEx, injectCssContent), 'binary');
+		styleModuleContent = new Buffer(styleModuleContent.replace(this.regExp, injectCssContent), 'binary');
 
 		// write the content back to the module
 		fs.writeFile(moduleFile, styleModuleContent, (err) => {
@@ -129,6 +133,10 @@ class StyleModuleInjectPlugin {
 		compiler.plugin(this.options.webpackHook, () => {
 			this.convertAndInject();
 		});
+	}
+
+	escapeRegExp(s) {
+		return s.replace(/[-\/\\^$*+?.()|[\]]/g, '\\$&');
 	}
 }
 
