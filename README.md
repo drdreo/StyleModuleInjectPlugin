@@ -15,10 +15,15 @@ Feel free to take it, use it, destroy it, fix it, just a star would be nice.
 1. If a style module file exists and it contains the inject comment, it converts the found .scss file and injects the new data into the style module between two specific comments which the user has to add. Have a look at the Style Module section.
 
 ## :computer: Usage
+#### Requirements
+*"node-sass": "^4.8.3"*
+		
 Currently there are two ways to use this plugin:
 * Webpack plugin
 * Standalone
 ### :package: Webpack
+"webpack": "^3.11.0"
+
 ```javascript
 const StyleModuleInjectPlugin = require('./StyleModuleInjectPlugin');
 ...
