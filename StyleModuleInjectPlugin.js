@@ -12,16 +12,16 @@
 		plugin.convertAndInject();
 
 		available options: {
-													styleFolder: './scss',															directory that the plugin should check for styles										
-													moduleFolder: './style-modules',										directory that the plugin should check for modules
-													extension: /\.scss$/,																file extension to look for
-													includePaths: ["src/webcomponents/style-modules"], 	https://www.npmjs.com/package/node-sass#includepaths
-													outputStyle: 'nested', 															https://www.npmjs.com/package/node-sass#outputstyle
-													cssFolder: './css',																	the directory where the css files should be written to, optional
-													webpackHook: 'run' 																	https://webpack.js.org/api/compiler-hooks/
-													startComment: "/*inject_start{scss}<star>/",				defines the start point of injection
-													endComment: "/*inject_end{scss}<star>/"							defines the end point of injection
-											 }
+					styleFolder: './scss', 					directory that the plugin should check for styles										
+					moduleFolder: './style-modules',			directory that the plugin should check for modules
+					extension: /\.scss$/,					file extension to look for
+					includePaths: ["src/webcomponents/style-modules"], 	https://www.npmjs.com/package/node-sass#includepaths
+					outputStyle: 'nested', 					https://www.npmjs.com/package/node-sass#outputstyle
+					cssFolder: './css',					directory where compiled css files will be written to
+					webpackHook: 'run' 					https://webpack.js.org/api/compiler-hooks/
+					startComment: "/*inject_start{scss}<star>/",		defines the start point of injection
+					endComment: "/*inject_end{scss}<star>/"			defines the end point of injection
+			 	  }
  */
 const fs = require('fs');
 const path = require('path');
