@@ -11,12 +11,11 @@ const StyleModuleInjectPlugin = require('./StyleModuleInjectPlugin');
 
 // init the plugin
 let loader = new StyleModuleInjectPlugin({
-	styleFolder: './scss',
-	moduleFolder: './style-modules',
+	polymerVersion: 3,
+	styleFolder: './SassStyles',
+	moduleFolder: './WebComponents/Style-Modules',
 	extension: /\.scss$/,
-	includePaths: ["src/webcomponents/style-modules"],
 	outputStyle: 'nested',
-	cssFolder: './css',
 	startComment: "/*inject_start{scss}*/",
 	endComment: "/*inject_end{scss}*/",
 });
